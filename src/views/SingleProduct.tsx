@@ -8,6 +8,7 @@ const SingleProduct = () => {
   const { id } = useParams();
   const [currentProduct, setCurrentProduct] = useState<Product>();
 
+  //Make into custom hook or implement into reducer?
   const getSingleProduct = async () => {
     try {
       const response = await axios.get(
@@ -22,6 +23,7 @@ const SingleProduct = () => {
 
   useEffect(() => {
     getSingleProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

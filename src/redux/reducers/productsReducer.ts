@@ -7,10 +7,12 @@ const initialState: {
   products: Product[];
   loading: boolean;
   error: string | null;
+  filteredProducts: Product[];
 } = {
   products: [],
   loading: false,
   error: '',
+  filteredProducts: [],
 };
 
 export const getAllProducts = createAsyncThunk('getAllProducts', async () => {
@@ -24,6 +26,21 @@ export const getAllProducts = createAsyncThunk('getAllProducts', async () => {
     return error;
   }
 });
+
+export const getFilteredProducts = createAsyncThunk(
+  'getFilteredProducts',
+  async (id: number) => {
+    try {
+      const response = await axios.get(
+        `https://api.escuelajs.co/api/v1/products/?categoryId=${id}`
+      );
+      return response.data as Product[];
+    } catch (e) {
+      const error = e as AxiosError;
+      return error;
+    }
+  }
+);
 
 const productsSlice = createSlice({
   name: 'products',
@@ -47,6 +64,11 @@ const productsSlice = createSlice({
     build.addCase(getAllProducts.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message ?? 'Failed to GET products.';
+    });
+    build.addCase(getFilteredProducts.fulfilled, (state, action) => {
+      action.payload instanceof AxiosError
+        ? (state.error = action.payload.message)
+        : (state.filteredProducts = action.payload);
     });
   },
 });
