@@ -17,11 +17,18 @@ const Products = () => {
   );
   const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
 
+  //any better approach for this?
   useEffect(() => {
     dispatch(getAllProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
     setCurrentProducts(products);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [products]);
+
+  useEffect(() => {
+    setCurrentProducts(filteredProducts);
+  }, [filteredProducts]);
 
   const handleCategory = (category: number) => {
     dispatch(getFilteredProducts(category));
