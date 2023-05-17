@@ -10,11 +10,10 @@ import { Product } from '../interfaces/Product';
 import { Link } from 'react-router-dom';
 
 const Products = () => {
-  const dispatch = useAppDispatch();
-  const products = useAppSelector((state) => state.productsReducer.products);
-  const filteredProducts = useAppSelector(
-    (state) => state.productsReducer.filteredProducts
+  const { products, filteredProducts } = useAppSelector(
+    (state) => state.productsReducer
   );
+  const dispatch = useAppDispatch();
   const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
 
   //any better approach for this?
