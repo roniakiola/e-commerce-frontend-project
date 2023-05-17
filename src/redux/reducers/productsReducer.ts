@@ -25,10 +25,14 @@ export const getAllProducts = createAsyncThunk('getAllProducts', async () => {
   }
 });
 
-const producstSlice = createSlice({
+const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
+  reducers: {
+    cleanUpProductReducer: (state) => {
+      return initialState;
+    },
+  },
   extraReducers: (build) => {
     build.addCase(getAllProducts.fulfilled, (state, action) => {
       state.loading = false;
@@ -47,5 +51,6 @@ const producstSlice = createSlice({
   },
 });
 
-const productsReducer = producstSlice.reducer;
+export const { cleanUpProductReducer } = productsSlice.actions;
+const productsReducer = productsSlice.reducer;
 export default productsReducer;
