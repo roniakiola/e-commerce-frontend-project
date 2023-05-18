@@ -2,17 +2,12 @@ import { useEffect, useState } from 'react';
 
 import useAppDispatch from '../hooks/useAppDispatch';
 import useAppSelector from '../hooks/useAppSelector';
-import {
-  getAllProducts,
-  sortByCategory,
-} from '../redux/reducers/productsReducer';
+import { getAllProducts } from '../redux/reducers/productsReducer';
 import { Product } from '../interfaces/Product';
 import { Link } from 'react-router-dom';
 
 const Products = () => {
-  const { products, sortedProducts } = useAppSelector(
-    (state) => state.productsReducer
-  );
+  const { products } = useAppSelector((state) => state.productsReducer);
   const dispatch = useAppDispatch();
   const [currentProducts, setCurrentProducts] = useState<Product[]>(products);
 
@@ -24,12 +19,11 @@ const Products = () => {
     setCurrentProducts(products);
   }, [products]);
 
-  useEffect(() => {
-    setCurrentProducts(sortedProducts);
-  }, [sortedProducts]);
-
   const handleCategory = (category: string) => {
-    dispatch(sortByCategory(category));
+    const sortedProducts = products.filter(
+      (product) => product.category.name === category
+    );
+    setCurrentProducts(sortedProducts);
   };
 
   return (
@@ -42,6 +36,7 @@ const Products = () => {
             <img src={product.images[1]} alt='product'></img>
             <p>{product.title}</p>
             <p>{product.price}</p>
+            <h2>{product.category.name}</h2>
           </div>
         </Link>
       ))}
