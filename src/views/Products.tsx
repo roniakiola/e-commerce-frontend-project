@@ -14,7 +14,7 @@ const Products = () => {
     (state) => state.productsReducer
   );
   const dispatch = useAppDispatch();
-  const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
+  const [currentProducts, setCurrentProducts] = useState<Product[]>(products);
 
   //any better approach for this?
   useEffect(() => {
@@ -31,7 +31,6 @@ const Products = () => {
 
   const handleCategory = (category: number) => {
     dispatch(getFilteredProducts(category));
-    setCurrentProducts(filteredProducts);
   };
 
   return (
