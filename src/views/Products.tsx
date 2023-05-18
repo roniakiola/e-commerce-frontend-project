@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 
 import useAppDispatch from '../hooks/useAppDispatch';
 import useAppSelector from '../hooks/useAppSelector';
-import { getAllProducts } from '../redux/reducers/productsReducer';
+import {
+  getAllProducts,
+  deleteProduct,
+} from '../redux/reducers/productsReducer';
 import { Product } from '../interfaces/Product';
 import { Link } from 'react-router-dom';
 
@@ -15,11 +18,13 @@ const Products = () => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
-  //is there any other way to make this work?
+  //must use because redux state is set in local state currentProducts
   useEffect(() => {
     setCurrentProducts(products);
   }, [products]);
 
+  //handleCategory and handlePrice could be moved to reducer
+  //but does it make sense?
   const handleCategory = (category: string) => {
     const sortedByCategory = products.filter(
       (product) => product.category.name === category
@@ -37,10 +42,14 @@ const Products = () => {
     setCurrentProducts(sortedByPrice);
   };
 
+  const handleDelete = (id: number) => {
+    dispatch(deleteProduct(id));
+  };
+
   return (
     <>
       <h1>Products</h1>
-      <button onClick={() => handleCategory('prins')}>Sort by Clothes</button>
+      <button onClick={() => handleCategory('Clothes')}>Sort by Clothes</button>
       <button onClick={() => handlePrice('asc')}>Ascending Price</button>
       <button onClick={() => handlePrice('desc')}>Descending Price</button>
       {currentProducts.map((product: Product) => (
@@ -50,6 +59,7 @@ const Products = () => {
             <p>{product.title}</p>
             <p>{product.price}</p>
             <h2>{product.category.name}</h2>
+            <button onClick={() => handleDelete(product.id)}>Delete</button>
           </div>
         </Link>
       ))}

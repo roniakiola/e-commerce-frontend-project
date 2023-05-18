@@ -2,9 +2,11 @@ import {
   cleanUpProductReducer,
   getAllProducts,
   createProduct,
+  deleteProduct,
 } from '../../redux/reducers/productsReducer';
 import productServer from '../server/productServer';
 import mockStore from '../mockStore';
+import { product1 } from '../data/productData';
 
 beforeEach(() => {
   mockStore.dispatch(cleanUpProductReducer());
@@ -41,7 +43,14 @@ describe('Test productsReducer', () => {
         images: ['https://placeimg.com/640/480/any'],
       })
     );
-
     expect(mockStore.getState().productsReducer.products.length).toBe(6);
+  });
+  test('Check deleteProduct', async () => {
+    await mockStore.dispatch(getAllProducts());
+    await mockStore.dispatch(deleteProduct(1));
+    expect(mockStore.getState().productsReducer.products.length).toBe(4);
+    expect(mockStore.getState().productsReducer.products).not.toEqual(
+      expect.arrayContaining([expect.objectContaining(product1)])
+    );
   });
 });

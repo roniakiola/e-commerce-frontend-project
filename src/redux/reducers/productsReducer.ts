@@ -42,6 +42,21 @@ export const createProduct = createAsyncThunk(
   }
 );
 
+export const deleteProduct = createAsyncThunk(
+  'deleteProduct',
+  async (id: number) => {
+    try {
+      const response = await axios.delete(
+        `https://api.escuelajs.co/api/v1/products/${id}`
+      );
+      return response.data as boolean;
+    } catch (e) {
+      const error = e as AxiosError;
+      return error;
+    }
+  }
+);
+
 const productsSlice = createSlice({
   name: 'products',
   initialState,
@@ -69,6 +84,16 @@ const productsSlice = createSlice({
       action.payload instanceof AxiosError
         ? (state.error = action.payload.message)
         : state.products.push(action.payload);
+    });
+    build.addCase(deleteProduct.fulfilled, (state, action) => {
+      const productId = action.meta.arg;
+      if (!action.payload) {
+        state.error = 'Failed to delete product.';
+      } else {
+        state.products = state.products.filter(
+          (product) => product.id !== productId
+        );
+      }
     });
   },
 });
