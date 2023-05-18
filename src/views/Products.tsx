@@ -15,6 +15,7 @@ const Products = () => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
+  //is there any other way to make this work?
   useEffect(() => {
     setCurrentProducts(products);
   }, [products]);

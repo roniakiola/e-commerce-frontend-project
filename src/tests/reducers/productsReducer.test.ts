@@ -1,6 +1,7 @@
 import {
   cleanUpProductReducer,
   getAllProducts,
+  createProduct,
 } from '../../redux/reducers/productsReducer';
 import productServer from '../server/productServer';
 import mockStore from '../mockStore';
@@ -23,11 +24,23 @@ describe('Test productsReducer', () => {
       loading: false,
       error: '',
       products: [],
-      filteredProducts: [],
     });
   });
   test('Check getAllProducts', async () => {
     await mockStore.dispatch(getAllProducts());
     expect(mockStore.getState().productsReducer.products.length).toBe(5);
+  });
+  test('Check createProduct', async () => {
+    await mockStore.dispatch(
+      createProduct({
+        title: 'New Product',
+        price: 10,
+        description: 'A description',
+        categoryId: 1,
+        images: ['https://placeimg.com/640/480/any'],
+      })
+    );
+
+    expect(mockStore.getState().productsReducer.products.length).toBe(6);
   });
 });
