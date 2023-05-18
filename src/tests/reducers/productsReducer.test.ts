@@ -1,7 +1,7 @@
 import {
   cleanUpProductReducer,
   getAllProducts,
-  getFilteredProducts,
+  // getFilteredProducts,
 } from '../../redux/reducers/productsReducer';
 import productServer from '../server/productServer';
 import mockStore from '../mockStore';

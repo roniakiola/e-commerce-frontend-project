@@ -4,19 +4,18 @@ import useAppDispatch from '../hooks/useAppDispatch';
 import useAppSelector from '../hooks/useAppSelector';
 import {
   getAllProducts,
-  getFilteredProducts,
+  sortByCategory,
 } from '../redux/reducers/productsReducer';
 import { Product } from '../interfaces/Product';
 import { Link } from 'react-router-dom';
 
 const Products = () => {
-  const { products, filteredProducts } = useAppSelector(
+  const { products, sortedProducts } = useAppSelector(
     (state) => state.productsReducer
   );
   const dispatch = useAppDispatch();
   const [currentProducts, setCurrentProducts] = useState<Product[]>(products);
 
-  //any better approach for this?
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
@@ -26,17 +25,17 @@ const Products = () => {
   }, [products]);
 
   useEffect(() => {
-    setCurrentProducts(filteredProducts);
-  }, [filteredProducts]);
+    setCurrentProducts(sortedProducts);
+  }, [sortedProducts]);
 
-  const handleCategory = (category: number) => {
-    dispatch(getFilteredProducts(category));
+  const handleCategory = (category: string) => {
+    dispatch(sortByCategory(category));
   };
 
   return (
     <>
       <h1>Products</h1>
-      <button onClick={() => handleCategory(1)}>Sort by Clothes</button>
+      <button onClick={() => handleCategory('prins')}>Sort by Clothes</button>
       {currentProducts.map((product: Product) => (
         <Link key={product.id} to={String(product.id)}>
           <div>
