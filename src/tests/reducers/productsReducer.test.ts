@@ -31,6 +31,7 @@ describe('Test productsReducer', () => {
     expect(mockStore.getState().productsReducer.products.length).toBe(5);
   });
   test('Check createProduct', async () => {
+    await mockStore.dispatch(getAllProducts());
     await mockStore.dispatch(
       createProduct({
         title: 'New Product',
