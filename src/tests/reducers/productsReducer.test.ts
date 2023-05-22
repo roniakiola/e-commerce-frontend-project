@@ -1,4 +1,3 @@
-import { UpdatedProduct } from './../../interfaces/UpdatedProduct';
 import {
   cleanUpProductReducer,
   getAllProducts,

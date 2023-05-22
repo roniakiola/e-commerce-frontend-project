@@ -7,6 +7,7 @@ import Profile from './views/Profile';
 import SingleProduct from './views/SingleProduct';
 import Cart from './views/Cart';
 import Navbar from './components/Navbar';
+import Login from './views/Login';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path='/products/:id' element={<SingleProduct />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </Router>
     </>
