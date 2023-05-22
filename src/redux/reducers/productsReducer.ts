@@ -26,6 +26,21 @@ export const getAllProducts = createAsyncThunk('getAllProducts', async () => {
   }
 });
 
+export const getFilteredProducts = createAsyncThunk(
+  'getFilteredProducts',
+  async (id: number) => {
+    try {
+      const response = await axios.get(
+        `https://api.escuelajs.co/api/v1/products/?categoryId=${id}`
+      );
+      return response.data as Product[];
+    } catch (e) {
+      const error = e as AxiosError;
+      return error;
+    }
+  }
+);
+
 export const createProduct = createAsyncThunk(
   'createProduct',
   async (newProduct: NewProduct) => {
@@ -64,6 +79,15 @@ const productsSlice = createSlice({
     cleanUpProductReducer: (state) => {
       return initialState;
     },
+    sortByPrice: (state, action) => {
+      state.products.sort((a, b) => {
+        if (action.payload === 'asc') {
+          return a.price - b.price;
+        } else {
+          return b.price - a.price;
+        }
+      });
+    },
   },
   extraReducers: (build) => {
     build.addCase(getAllProducts.fulfilled, (state, action) => {
@@ -79,6 +103,11 @@ const productsSlice = createSlice({
     build.addCase(getAllProducts.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message ?? 'Failed to GET products.';
+    });
+    build.addCase(getFilteredProducts.fulfilled, (state, action) => {
+      action.payload instanceof AxiosError
+        ? (state.error = action.payload.message)
+        : (state.products = action.payload);
     });
     build.addCase(createProduct.fulfilled, (state, action) => {
       action.payload instanceof AxiosError
@@ -98,6 +127,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { cleanUpProductReducer } = productsSlice.actions;
+export const { cleanUpProductReducer, sortByPrice } = productsSlice.actions;
 const productsReducer = productsSlice.reducer;
 export default productsReducer;
