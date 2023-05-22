@@ -3,6 +3,7 @@ import axios, { Axios, AxiosError } from 'axios';
 
 import { User } from '../../interfaces/User';
 import { LoginData } from '../../interfaces/LoginData';
+import { RegisterData } from '../../interfaces/RegisterData';
 
 const initialState: {
   loggedIn: boolean;
@@ -50,6 +51,22 @@ const getUserData = async (token: string) => {
     return error;
   }
 };
+
+export const registerUser = createAsyncThunk(
+  'registerUser',
+  async (registerData: RegisterData) => {
+    try {
+      const response = await axios.post(
+        'https://api.escuelajs.co/api/v1/users/',
+        registerData
+      );
+      return;
+    } catch (e) {
+      const error = e as AxiosError;
+      return error;
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: 'user',

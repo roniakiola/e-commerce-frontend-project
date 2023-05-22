@@ -1,17 +1,17 @@
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import useAppDispatch from '../hooks/useAppDispatch';
-import useAppSelector from '../hooks/useAppSelector';
 import { loginUser } from '../redux/reducers/userReducer';
-import { LoginFormInputs } from '../interfaces/LoginFormInputs';
+import { LoginData } from '../interfaces/LoginData';
 import { useState } from 'react';
+import { RegisterData } from '../interfaces/RegisterData';
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm<LoginFormInputs>();
-  const [showRegister, setShowRegister] = useState<boolean>(false);
+  const { register, handleSubmit } = useForm<LoginData | RegisterData>();
+  const [showRegister, setShowRegister] = useState<boolean>(true);
 
-  const onLogin = (data: LoginFormInputs) => {
+  const onLogin = (data: LoginData) => {
     console.log(data);
     dispatch(loginUser(data));
   };
@@ -33,8 +33,8 @@ const Login = () => {
       ) : (
         <form onSubmit={handleSubmit(onLogin)}>
           <input
-            type='password'
-            {...(register('password'), { required: true })}
+            type='text'
+            {...(register('name'), { required: true })}
           ></input>
           <input
             type='email'
@@ -44,6 +44,7 @@ const Login = () => {
             type='password'
             {...(register('password'), { required: true })}
           ></input>
+          <input type='file'></input>
           <button type='submit'>Register</button>
         </form>
       )}
