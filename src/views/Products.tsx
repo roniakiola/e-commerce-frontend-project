@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import useAppDispatch from '../hooks/useAppDispatch';
 import useAppSelector from '../hooks/useAppSelector';
@@ -7,9 +8,10 @@ import {
   getFilteredProducts,
   deleteProduct,
   sortByPrice,
+  updateProduct,
 } from '../redux/reducers/productsReducer';
 import { Product } from '../interfaces/Product';
-import { Link } from 'react-router-dom';
+import { UpdatedProduct } from '../interfaces/UpdatedProduct';
 
 const Products = () => {
   const { products } = useAppSelector((state) => state.productsReducer);
@@ -25,7 +27,9 @@ const Products = () => {
   const handlePrice = (sortOrder: string) => {
     dispatch(sortByPrice(sortOrder));
   };
-
+  const handleUpdate = (updatedProduct: UpdatedProduct, id: number) => {
+    dispatch(updateProduct({ updatedProduct, id }));
+  };
   const handleDelete = (id: number) => {
     dispatch(deleteProduct(id));
   };
@@ -37,15 +41,20 @@ const Products = () => {
       <button onClick={() => handlePrice('asc')}>Ascending Price</button>
       <button onClick={() => handlePrice('desc')}>Descending Price</button>
       {products.map((product: Product) => (
-        <Link key={product.id} to={String(product.id)}>
-          <div>
-            <img src={product.images[1]} alt='product'></img>
-            <p>{product.title}</p>
-            <p>{product.price}</p>
-            <h2>{product.category.name}</h2>
-            <button onClick={() => handleDelete(product.id)}>Delete</button>
-          </div>
-        </Link>
+        <div>
+          <img src={product.images[1]} alt='product'></img>
+          <Link key={product.id} to={String(product.id)}>
+            <p>Title: {product.title}</p>
+            <p>Price: {product.price}</p>
+            <h2>Category Name: {product.category.name}</h2>
+          </Link>
+          <button onClick={() => handleDelete(product.id)}>Delete</button>
+          <button
+            onClick={() => handleUpdate({ title: 'updateTest' }, product.id)}
+          >
+            Update
+          </button>
+        </div>
       ))}
     </>
   );

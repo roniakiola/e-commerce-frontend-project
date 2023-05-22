@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 
 import { Product } from '../../interfaces/Product';
 import { NewProduct } from '../../interfaces/NewProduct';
+import { UpdatedProduct } from '../../interfaces/UpdatedProduct';
 
 const initialState: {
   products: Product[];
@@ -57,6 +58,28 @@ export const createProduct = createAsyncThunk(
   }
 );
 
+export const updateProduct = createAsyncThunk(
+  'updateProduct',
+  async ({
+    updatedProduct,
+    id,
+  }: {
+    updatedProduct: UpdatedProduct;
+    id: number;
+  }) => {
+    try {
+      const response = await axios.put(
+        `https://api.escuelajs.co/api/v1/products/${id}`,
+        updatedProduct
+      );
+      return response.data as Product;
+    } catch (e) {
+      const error = e as AxiosError;
+      return error;
+    }
+  }
+);
+
 export const deleteProduct = createAsyncThunk(
   'deleteProduct',
   async (id: number) => {
@@ -76,7 +99,7 @@ const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    cleanUpProductReducer: (state) => {
+    cleanUpProductReducer: () => {
       return initialState;
     },
     sortByPrice: (state, action) => {
@@ -96,7 +119,7 @@ const productsSlice = createSlice({
         ? (state.error = action.payload.message)
         : (state.products = action.payload);
     });
-    build.addCase(getAllProducts.pending, (state, action) => {
+    build.addCase(getAllProducts.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
@@ -113,6 +136,19 @@ const productsSlice = createSlice({
       action.payload instanceof AxiosError
         ? (state.error = action.payload.message)
         : state.products.push(action.payload);
+    });
+    build.addCase(updateProduct.fulfilled, (state, action) => {
+      const updatedProduct = action.payload;
+      if (updatedProduct instanceof AxiosError) {
+        state.error = updatedProduct.message;
+      } else {
+        const index = state.products.findIndex(
+          (product) => product.id === updatedProduct.id
+        );
+        if (index !== -1) {
+          state.products[index] = updatedProduct;
+        }
+      }
     });
     build.addCase(deleteProduct.fulfilled, (state, action) => {
       const productId = action.meta.arg;

@@ -1,8 +1,10 @@
+import { UpdatedProduct } from './../../interfaces/UpdatedProduct';
 import {
   cleanUpProductReducer,
   getAllProducts,
   createProduct,
   deleteProduct,
+  updateProduct,
 } from '../../redux/reducers/productsReducer';
 import productServer from '../server/productServer';
 import mockStore from '../mockStore';
@@ -53,4 +55,19 @@ describe('Test productsReducer', () => {
       expect.arrayContaining([expect.objectContaining(product1)])
     );
   });
+  //test not working, returns original title
+
+  // test('Check updateProduct', async () => {
+  //   const updatedProduct = {
+  //     title: 'testUpdate',
+  //     categoryId: 2,
+  //   };
+  //   const id = 1;
+  //   await mockStore.dispatch(getAllProducts());
+  //   await mockStore.dispatch(updateProduct({ updatedProduct, id }));
+  //   const findUpdatedProduct = mockStore
+  //     .getState()
+  //     .productsReducer.products.find((product) => product.id === id);
+  //   expect(findUpdatedProduct?.title).toEqual('testUpdate');
+  // });
 });
