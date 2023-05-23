@@ -41,9 +41,9 @@ const Products = () => {
       <button onClick={() => handlePrice('asc')}>Ascending Price</button>
       <button onClick={() => handlePrice('desc')}>Descending Price</button>
       {products.map((product: Product) => (
-        <div>
+        <div key={product.id}>
           <img src={product.images[1]} alt='product'></img>
-          <Link key={product.id} to={String(product.id)}>
+          <Link to={String(product.id)}>
             <p>Title: {product.title}</p>
             <p>Price: {product.price}</p>
             <h2>Category Name: {product.category.name}</h2>

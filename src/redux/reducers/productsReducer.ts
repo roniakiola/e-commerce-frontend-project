@@ -4,6 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { Product } from '../../interfaces/Product';
 import { NewProduct } from '../../interfaces/NewProduct';
 import { UpdatedProduct } from '../../interfaces/UpdatedProduct';
+import store from '../store';
 
 const initialState: {
   products: Product[];
@@ -67,15 +68,22 @@ export const updateProduct = createAsyncThunk(
     updatedProduct: UpdatedProduct;
     id: number;
   }) => {
-    try {
-      const response = await axios.put(
-        `https://api.escuelajs.co/api/v1/products/${id}`,
-        updatedProduct
-      );
-      return response.data as Product;
-    } catch (e) {
-      const error = e as AxiosError;
-      return error;
+    const state = store.getState();
+    const { user } = state.userReducer;
+
+    if (user.role === 'admin') {
+      try {
+        const response = await axios.put(
+          `https://api.escuelajs.co/api/v1/products/${id}`,
+          updatedProduct
+        );
+        return response.data as Product;
+      } catch (e) {
+        const error = e as AxiosError;
+        return error;
+      }
+    } else {
+      throw new Error('Unauthorized access');
     }
   }
 );
@@ -83,14 +91,21 @@ export const updateProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   'deleteProduct',
   async (id: number) => {
-    try {
-      const response = await axios.delete(
-        `https://api.escuelajs.co/api/v1/products/${id}`
-      );
-      return response.data as boolean;
-    } catch (e) {
-      const error = e as AxiosError;
-      return error;
+    const state = store.getState();
+    const { user } = state.userReducer;
+
+    if (user.role === 'admin') {
+      try {
+        const response = await axios.delete(
+          `https://api.escuelajs.co/api/v1/products/${id}`
+        );
+        return response.data as boolean;
+      } catch (e) {
+        const error = e as AxiosError;
+        return error;
+      }
+    } else {
+      throw new Error('Unauthorized access');
     }
   }
 );
@@ -150,6 +165,9 @@ const productsSlice = createSlice({
         }
       }
     });
+    build.addCase(updateProduct.rejected, (state) => {
+      state.error = 'Unauthorized access';
+    });
     build.addCase(deleteProduct.fulfilled, (state, action) => {
       const productId = action.meta.arg;
       if (!action.payload) {
@@ -159,6 +177,9 @@ const productsSlice = createSlice({
           (product) => product.id !== productId
         );
       }
+    });
+    build.addCase(deleteProduct.rejected, (state) => {
+      state.error = 'Unauthorized access';
     });
   },
 });
