@@ -10,11 +10,14 @@ import {
   sortByPrice,
   updateProduct,
 } from '../redux/reducers/productsReducer';
+import { addToCart } from '../redux/reducers/cartReducer';
 import { Product } from '../interfaces/Product';
 import { UpdatedProduct } from '../interfaces/UpdatedProduct';
+import { CartItem } from '../interfaces/CartItem';
 
 const Products = () => {
   const { products } = useAppSelector((state) => state.productsReducer);
+  const { cartItems } = useAppSelector((state) => state.cartReducer);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -32,6 +35,9 @@ const Products = () => {
   };
   const handleDelete = (id: number) => {
     dispatch(deleteProduct(id));
+  };
+  const handleCart = (cartItem: CartItem) => {
+    dispatch(addToCart(cartItem));
   };
 
   return (
@@ -53,6 +59,9 @@ const Products = () => {
             onClick={() => handleUpdate({ title: 'updateTest' }, product.id)}
           >
             Update
+          </button>
+          <button onClick={() => handleCart({ product, amount: 1 })}>
+            Add to Cart
           </button>
         </div>
       ))}
