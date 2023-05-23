@@ -1,17 +1,27 @@
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import useAppDispatch from '../hooks/useAppDispatch';
 import { loginUser, registerUser } from '../redux/reducers/userReducer';
 import { LoginData } from '../interfaces/LoginData';
 import { RegisterData } from '../interfaces/RegisterData';
+import useAppSelector from '../hooks/useAppSelector';
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm<LoginData & RegisterData>();
+  const { loggedIn } = useAppSelector((state) => state.userReducer);
   const [showRegister, setShowRegister] = useState<boolean>(false);
   const [fileLocation, setFileLocation] = useState<string>('');
+
+  useEffect(() => {
+    if (loggedIn) {
+      navigate('/products');
+    }
+  }, [loggedIn]);
 
   const handleFileChange = async (file: File) => {
     const formData = new FormData();
@@ -45,10 +55,12 @@ const Login = () => {
           <form onSubmit={handleSubmit(onLogin)}>
             <input
               type='email'
+              placeholder='Email'
               {...register('email', { required: true })}
             ></input>
             <input
               type='password'
+              placeholder='Password'
               {...register('password', { required: true })}
             ></input>
             <button type='submit'>Login</button>
@@ -62,14 +74,17 @@ const Login = () => {
           <form onSubmit={handleSubmit(onRegister)}>
             <input
               type='text'
+              placeholder='Name'
               {...register('name', { required: true })}
             ></input>
             <input
               type='email'
+              placeholder='Email'
               {...register('email', { required: true })}
             ></input>
             <input
               type='password'
+              placeholder='Password'
               {...register('password', { required: true })}
             ></input>
             <input
