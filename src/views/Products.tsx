@@ -10,7 +10,7 @@ import {
   sortByPrice,
   updateProduct,
 } from '../redux/reducers/productsReducer';
-import { addToCart } from '../redux/reducers/cartReducer';
+import { addToCart, removeFromCart } from '../redux/reducers/cartReducer';
 import { Product } from '../interfaces/Product';
 import { UpdatedProduct } from '../interfaces/UpdatedProduct';
 import { CartItem } from '../interfaces/CartItem';
@@ -36,8 +36,11 @@ const Products = () => {
   const handleDelete = (id: number) => {
     dispatch(deleteProduct(id));
   };
-  const handleCart = (cartItem: CartItem) => {
+  const handleAddToCart = (cartItem: CartItem) => {
     dispatch(addToCart(cartItem));
+  };
+  const handleRemoveFromCart = (cartItem: CartItem) => {
+    dispatch(removeFromCart(cartItem));
   };
 
   return (
@@ -60,8 +63,11 @@ const Products = () => {
           >
             Update
           </button>
-          <button onClick={() => handleCart({ product, amount: 1 })}>
+          <button onClick={() => handleAddToCart({ product, amount: 1 })}>
             Add to Cart
+          </button>
+          <button onClick={() => handleRemoveFromCart({ product, amount: 1 })}>
+            Remove from cart
           </button>
         </div>
       ))}
