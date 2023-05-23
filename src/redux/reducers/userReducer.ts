@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { Axios, AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import { User } from '../../interfaces/User';
 import { LoginData } from '../../interfaces/LoginData';
@@ -60,7 +60,7 @@ export const registerUser = createAsyncThunk(
         'https://api.escuelajs.co/api/v1/users/',
         registerData
       );
-      return;
+      return response.data as User;
     } catch (e) {
       const error = e as AxiosError;
       return error;
@@ -78,6 +78,15 @@ const userSlice = createSlice({
         state.error = action.payload.message;
       } else {
         state.user = action.payload;
+        state.loggedIn = true;
+      }
+    });
+    build.addCase(registerUser.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.message;
+      } else {
+        state.user = action.payload;
+        state.loggedIn = true;
       }
     });
   },
