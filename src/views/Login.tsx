@@ -12,7 +12,7 @@ import useAppSelector from '../hooks/useAppSelector';
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<LoginData & RegisterData>();
+  const { register, handleSubmit, reset } = useForm<LoginData & RegisterData>();
   const { loggedIn } = useAppSelector((state) => state.userReducer);
   const [showRegister, setShowRegister] = useState<boolean>(false);
   const [fileLocation, setFileLocation] = useState<string>('');
@@ -41,11 +41,13 @@ const Login = () => {
 
   const onLogin = (data: LoginData) => {
     dispatch(loginUser(data));
+    reset();
   };
 
   const onRegister = (data: RegisterData) => {
     data.avatar = fileLocation;
     dispatch(registerUser(data));
+    reset();
   };
 
   return (

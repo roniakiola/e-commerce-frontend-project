@@ -17,7 +17,6 @@ import { CartItem } from '../interfaces/CartItem';
 
 const Products = () => {
   const { products } = useAppSelector((state) => state.productsReducer);
-  const { cartItems } = useAppSelector((state) => state.cartReducer);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
