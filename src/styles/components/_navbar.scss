@@ -6,21 +6,32 @@
   align-items: center;
   position: static;
   max-width: 100%;
-  padding: 1em;
   background-color: colors.$primary-accent;
 
   &__menu-left,
   &__menu-right {
     display: flex;
+    align-items: center;
     list-style: none;
-    margin: 0;
-    padding: 0;
   }
 
   &__link {
+    display: flex;
+    justify-content: center;
     text-decoration: none;
-    background-color: colors.$primary-accent;
     color: colors.$secondary-light;
     padding: 1em;
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: colors.$secondary-light;
+    padding: 1em;
+    font-size: 1em;
+    &:hover {
+      background-color: colors.$warning-red;
+      cursor: pointer;
+    }
   }
 }

@@ -27,7 +27,7 @@ const ProductCard = (props: ProductCardProps) => {
             </div>
             <div className='product-card__middle'>
               <h3 className='product-card__title'>{title}</h3>
-              <p className='product-card__description'>{description}</p>
+              <p className='product-card__description'>"{description}"</p>
             </div>
           </Link>
           <div className='product-card__bottom'>

@@ -9,11 +9,15 @@
   padding: 0;
   font-family: fonts.$primary-font;
   font-weight: 300;
-  color: colors.$primary-accent;
   text-decoration: none;
 }
 body {
   background-color: colors.$primary-dark;
+}
+h1,
+h3,
+p {
+  color: colors.$primary-accent;
 }
 
 @media only screen and (max-width: 800px) {

@@ -64,7 +64,11 @@ export const registerUser = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    logoutUser: () => {
+      return initialState;
+    },
+  },
   extraReducers: (build) => {
     build.addCase(loginUser.fulfilled, (state, action) => {
       if (action.payload instanceof AxiosError) {
@@ -84,6 +88,6 @@ const userSlice = createSlice({
     });
   },
 });
-
+export const { logoutUser } = userSlice.actions;
 const userReducer = userSlice.reducer;
 export default userReducer;
