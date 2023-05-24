@@ -9,18 +9,11 @@ const initialState: {
   loggedIn: boolean;
   loading: boolean;
   error: string;
-  user: User;
+  user?: User;
 } = {
   loggedIn: false,
   loading: false,
   error: '',
-  user: {
-    email: '',
-    password: '',
-    name: '',
-    role: '',
-    avatar: '',
-  },
 };
 
 export const loginUser = createAsyncThunk(

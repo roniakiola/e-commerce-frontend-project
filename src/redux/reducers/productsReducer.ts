@@ -71,7 +71,7 @@ export const updateProduct = createAsyncThunk(
     const state = store.getState();
     const { user } = state.userReducer;
 
-    if (user.role === 'admin') {
+    if (user?.role === 'admin') {
       try {
         const response = await axios.put(
           `https://api.escuelajs.co/api/v1/products/${id}`,
@@ -94,7 +94,7 @@ export const deleteProduct = createAsyncThunk(
     const state = store.getState();
     const { user } = state.userReducer;
 
-    if (user.role === 'admin') {
+    if (user?.role === 'admin') {
       try {
         const response = await axios.delete(
           `https://api.escuelajs.co/api/v1/products/${id}`
