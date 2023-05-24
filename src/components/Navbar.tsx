@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useState } from 'react';
 
 import useAppSelector from '../hooks/useAppSelector';
 import useAppDispatch from '../hooks/useAppDispatch';
@@ -8,28 +10,45 @@ import { logoutUser } from '../redux/reducers/userReducer';
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const { loggedIn } = useAppSelector((state) => state.userReducer);
+  const [navOpen, setNavOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch(logoutUser());
   };
 
+  const handleNavBar = () => {
+    setNavOpen(!navOpen);
+  };
+
   return (
     <nav>
       <div className='navbar'>
-        <ul className='navbar__menu-left'>
+        <ul className={`navbar__menu-left ${navOpen && 'visible'}`}>
           <li className='navbar__item'>
-            <Link to='/' className='navbar__link'>
+            <Link
+              to='/'
+              className='navbar__link'
+              onClick={() => handleNavBar()}
+            >
               Home
             </Link>
           </li>
           <li className='navbar__item'>
-            <Link to='/products' className='navbar__link'>
+            <Link
+              to='/products'
+              className='navbar__link'
+              onClick={() => handleNavBar()}
+            >
               Products
             </Link>
           </li>
           {loggedIn ? (
             <li className='navbar__item'>
-              <Link to='/profile' className='navbar__link'>
+              <Link
+                to='/profile'
+                className='navbar__link'
+                onClick={() => handleNavBar()}
+              >
                 Profile
               </Link>
             </li>
@@ -45,7 +64,9 @@ const Navbar = () => {
           </li>
           {loggedIn ? (
             <li className='navbar__item'>
-              <button onClick={() => handleLogout()}>Logout</button>
+              <button className='button-logout' onClick={() => handleLogout()}>
+                Logout
+              </button>
             </li>
           ) : (
             <li className='navbar__item'>
@@ -54,6 +75,12 @@ const Navbar = () => {
               </Link>
             </li>
           )}
+          <li className='navbar__item'>
+            <MenuIcon
+              onClick={() => handleNavBar()}
+              className='navbar__hamburger'
+            />
+          </li>
         </ul>
       </div>
     </nav>

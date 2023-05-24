@@ -15,15 +15,38 @@
     list-style: none;
   }
 
+  &__menu-right {
+    //display none hamburger menu
+    .navbar__item:last-child {
+      display: none;
+    }
+  }
+
   &__link {
     display: flex;
     justify-content: center;
     text-decoration: none;
     color: colors.$secondary-light;
     padding: 1em;
+    transition: 0.4s ease-in-out;
+    &:hover {
+      background-color: colors.$primary-dark;
+      color: colors.$primary-accent;
+    }
   }
 
-  button {
+  &__hamburger {
+    height: 100%;
+    padding: 0.65em 0.75em;
+    vertical-align: middle;
+    color: colors.$secondary-light;
+    &:hover {
+      background-color: colors.$primary-dark;
+      color: colors.$primary-accent;
+    }
+  }
+
+  .button-logout {
     background: none;
     border: none;
     color: colors.$secondary-light;
@@ -32,6 +55,41 @@
     &:hover {
       background-color: colors.$warning-red;
       cursor: pointer;
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .navbar {
+    justify-content: flex-end;
+
+    &__menu-left {
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      right: 0;
+      top: 55px;
+      background-color: colors.$primary-accent;
+      height: 0px;
+      width: 100%;
+      transition: 0.4s ease-in;
+      overflow: hidden;
+      &.visible {
+        height: 165px;
+      }
+    }
+
+    &__menu-right {
+      //display block hamburger menu
+      .navbar__item:last-child {
+        display: block;
+        cursor: pointer;
+      }
+    }
+
+    &__item {
+      width: 100%;
     }
   }
 }
