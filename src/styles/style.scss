@@ -1,6 +1,18 @@
 @use './components/navbar';
+@use './variables/fonts';
+@use './variables/colors';
+@use './components/productgrid';
+@use './components/productcard';
 
 * {
   margin: 0;
   padding: 0;
+  background-color: colors.$primary-dark;
+  font-family: fonts.$primary-font;
+  font-weight: 300;
+  color: colors.$primary-accent;
+  text-decoration: none;
+}
+body {
+  padding: 0 10em;
 }
