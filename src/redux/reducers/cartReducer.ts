@@ -4,6 +4,7 @@ import { CartItem } from '../../interfaces/CartItem';
 
 const initialState: {
   cartItems: CartItem[];
+  total?: number;
 } = {
   cartItems: [],
 };
@@ -21,6 +22,7 @@ const cartSlice = createSlice({
       } else {
         state.cartItems.push(action.payload);
       }
+      state.total = calculateTotal(state.cartItems);
     },
     removeFromCart: (state, action: PayloadAction<CartItem>) => {
       const cartItem = state.cartItems.find(
@@ -34,9 +36,14 @@ const cartSlice = createSlice({
           );
         }
       }
+      state.total = calculateTotal(state.cartItems);
     },
   },
 });
+
+const calculateTotal = (cartItems: CartItem[]): number => {
+  return cartItems.reduce((total, item) => total + item.amount, 0);
+};
 
 export const { addToCart, removeFromCart } = cartSlice.actions;
 const cartReducer = cartSlice.reducer;

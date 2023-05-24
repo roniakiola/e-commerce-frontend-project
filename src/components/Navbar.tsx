@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Badge } from '@mui/material';
 import { useState } from 'react';
 
 import useAppSelector from '../hooks/useAppSelector';
@@ -10,6 +11,7 @@ import { logoutUser } from '../redux/reducers/userReducer';
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const { loggedIn } = useAppSelector((state) => state.userReducer);
+  const { total } = useAppSelector((state) => state.cartReducer);
   const [navOpen, setNavOpen] = useState(false);
 
   const handleLogout = () => {
@@ -59,7 +61,16 @@ const Navbar = () => {
         <ul className='navbar__menu-right'>
           <li className='navbar__item'>
             <Link to='/cart' className='navbar__link'>
-              <ShoppingCartOutlinedIcon className='navbar__icon' />
+              <Badge
+                badgeContent={total}
+                sx={{
+                  '& .MuiBadge-badge': {
+                    backgroundColor: '#923232',
+                  },
+                }}
+              >
+                <ShoppingCartOutlinedIcon className='navbar__icon' />
+              </Badge>
             </Link>
           </li>
           {loggedIn ? (
