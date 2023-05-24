@@ -3,7 +3,6 @@
 .product-card {
   display: flex;
   flex-direction: column;
-  max-height: 31em;
   box-shadow: -4px 4px 10px 2px rgba(0, 0, 0, 0.18);
   &:hover {
     position: relative;
