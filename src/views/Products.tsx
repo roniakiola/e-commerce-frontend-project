@@ -14,13 +14,17 @@ import { Product } from '../interfaces/Product';
 import { UpdatedProduct } from '../interfaces/UpdatedProduct';
 import { CartItem } from '../interfaces/CartItem';
 import ProductCard from '../components/ProductCard';
+import { Category } from '../interfaces/Category';
+import { getAllCategories } from '../redux/reducers/categoryReducer';
 
 const Products = () => {
   const { products } = useAppSelector((state) => state.productsReducer);
+  const { categories } = useAppSelector((state) => state.categoryReducer);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getAllProducts());
+    dispatch(getAllCategories());
   }, [dispatch]);
 
   const handleCategory = (categoryId: number) => {
@@ -44,10 +48,19 @@ const Products = () => {
 
   return (
     <>
-      <h1>Products</h1>
-      <button onClick={() => handleCategory(1)}>Sort by 1</button>
-      <button onClick={() => handlePrice('asc')}>Ascending Price</button>
-      <button onClick={() => handlePrice('desc')}>Descending Price</button>
+      <div className='filter-container'>
+        <div className='filter-container__categories'>
+          {categories.map((category: Category) => (
+            <button onClick={() => handleCategory(category.id)}>
+              Sort by {category.name}
+            </button>
+          ))}
+        </div>
+        <div className='filter-container__prices'>
+          <button onClick={() => handlePrice('asc')}>Ascending Price</button>
+          <button onClick={() => handlePrice('desc')}>Descending Price</button>
+        </div>
+      </div>
       <div className='product-grid'>
         {products.map((product: Product) => (
           <ProductCard
