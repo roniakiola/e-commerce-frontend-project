@@ -38,6 +38,13 @@ const SingleProduct = () => {
                 animation='slide'
                 swipe={true}
                 navButtonsAlwaysVisible
+                indicatorContainerProps={{
+                  style: {
+                    zIndex: 2,
+                    marginTop: '-23px',
+                    position: 'relative',
+                  },
+                }}
               >
                 {currentProduct.images.map((image, index) => (
                   <div key={index} className='single-product__image-container'>
@@ -51,9 +58,12 @@ const SingleProduct = () => {
               </Carousel>
             </div>
             <div className='single-product__content-container'>
-              <h2>{currentProduct.title}</h2>
-              <p>{currentProduct.description}</p>
-              <p>{currentProduct.price}</p>
+              <h2 className='single-product__title'>{currentProduct.title}</h2>
+              <p className='single-product__description'>
+                "{currentProduct.description}"
+              </p>
+              <p className='single-product__price'>{currentProduct.price} €</p>
+              <button className='button--add-to-cart'>Add to Cart</button>
             </div>
           </div>
         </div>
