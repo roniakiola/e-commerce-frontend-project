@@ -3,33 +3,40 @@ import { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import Carousel from 'react-material-ui-carousel';
 
+import { CartItem } from '../interfaces/CartItem';
 import { Product } from '../interfaces/Product';
+import useAppDispatch from '../hooks/useAppDispatch';
+import { addToCart } from '../redux/reducers/cartReducer';
 
 const SingleProduct = () => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
-  const [currentProduct, setCurrentProduct] = useState<Product>();
-
-  //Make into custom hook or implement into reducer?
-  const getSingleProduct = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.escuelajs.co/api/v1/products/${id}`
-      );
-      setCurrentProduct(response.data);
-    } catch (e) {
-      const error = e as AxiosError;
-      return error;
-    }
-  };
+  const [product, setProduct] = useState<Product>();
 
   useEffect(() => {
     getSingleProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const getSingleProduct = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.escuelajs.co/api/v1/products/${id}`
+      );
+      setProduct(response.data);
+    } catch (e) {
+      const error = e as AxiosError;
+      return error;
+    }
+  };
+
+  const handleAddToCart = (cartItem: CartItem) => {
+    dispatch(addToCart(cartItem));
+  };
+
   return (
     <>
-      {currentProduct ? (
+      {product ? (
         <div className='single-product'>
           <div className='single-product__container'>
             <div className='single-product__carousel-container'>
@@ -46,7 +53,7 @@ const SingleProduct = () => {
                   },
                 }}
               >
-                {currentProduct.images.map((image, index) => (
+                {product.images.map((image, index) => (
                   <div key={index} className='single-product__image-container'>
                     <img
                       className='single-product__image'
@@ -58,12 +65,17 @@ const SingleProduct = () => {
               </Carousel>
             </div>
             <div className='single-product__content-container'>
-              <h2 className='single-product__title'>{currentProduct.title}</h2>
+              <h2 className='single-product__title'>{product.title}</h2>
               <p className='single-product__description'>
-                "{currentProduct.description}"
+                "{product.description}"
               </p>
-              <p className='single-product__price'>{currentProduct.price} €</p>
-              <button className='button--add-to-cart'>Add to Cart</button>
+              <p className='single-product__price'>{product.price} €</p>
+              <button
+                onClick={() => handleAddToCart({ product, amount: 1 })}
+                className='button--add-to-cart'
+              >
+                Add to Cart
+              </button>
             </div>
           </div>
         </div>
