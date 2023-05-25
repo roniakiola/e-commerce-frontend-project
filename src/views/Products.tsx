@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 import useAppDispatch from '../hooks/useAppDispatch';
 import useAppSelector from '../hooks/useAppSelector';
@@ -51,26 +50,6 @@ const Products = () => {
       <button onClick={() => handlePrice('desc')}>Descending Price</button>
       <div className='product-grid'>
         {products.map((product: Product) => (
-          // <div key={product.id}>
-          //   <img src={product.images[1]} alt='product'></img>
-          //   <Link to={String(product.id)}>
-          //     <p>Title: {product.title}</p>
-          //     <p>Price: {product.price}</p>
-          //     <h2>Category Name: {product.category.name}</h2>
-          //   </Link>
-          //   <button onClick={() => handleDelete(product.id)}>Delete</button>
-          //   <button
-          //     onClick={() => handleUpdate({ title: 'updateTest' }, product.id)}
-          //   >
-          //     Update
-          //   </button>
-          //   <button onClick={() => handleAddToCart({ product, amount: 1 })}>
-          //     Add to Cart
-          //   </button>
-          //   <button onClick={() => handleRemoveFromCart({ product, amount: 1 })}>
-          //     Remove from cart
-          //   </button>
-          // </div>
           <ProductCard
             key={product.id}
             product={product}
