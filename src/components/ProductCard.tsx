@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
+import { DeleteForever } from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
+
 import { ProductCardProps } from '../interfaces/ProductCardProps';
+import useAppSelector from '../hooks/useAppSelector';
 
 const ProductCard = (props: ProductCardProps) => {
   const {
@@ -10,11 +14,21 @@ const ProductCard = (props: ProductCardProps) => {
     handleRemoveFromCart,
   } = props;
   const { id, title, price, description, category, images } = product;
+  const { user } = useAppSelector((state) => state.userReducer);
 
   return (
     <>
       <div className='product-card'>
         <div className='product-card__container'>
+          {user?.role === 'admin' && (
+            <div className='product-card__admin-panel'>
+              <DeleteForever
+                onClick={() => handleDelete(id)}
+                className='delete-icon'
+              />
+              <EditIcon className='edit-icon' />
+            </div>
+          )}
           <Link to={String(id)}>
             <div className='product-card__top'>
               <div className='product-card__image-container'>
