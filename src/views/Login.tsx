@@ -21,6 +21,7 @@ const Login = () => {
     if (loggedIn) {
       navigate('/products');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
 
   const handleFileChange = async (file: File) => {

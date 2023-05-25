@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import useAppDispatch from '../hooks/useAppDispatch';
 import useAppSelector from '../hooks/useAppSelector';
@@ -16,22 +17,30 @@ import { CartItem } from '../interfaces/CartItem';
 import ProductCard from '../components/ProductCard';
 import { Category } from '../interfaces/Category';
 import { getAllCategories } from '../redux/reducers/categoryReducer';
+import { Box, FormControl, InputLabel, MenuItem } from '@mui/material';
 
 const Products = () => {
+  const dispatch = useAppDispatch();
   const { products } = useAppSelector((state) => state.productsReducer);
   const { categories } = useAppSelector((state) => state.categoryReducer);
-  const dispatch = useAppDispatch();
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedPrice, setSelectedPrice] = useState('');
 
   useEffect(() => {
     dispatch(getAllProducts());
     dispatch(getAllCategories());
   }, [dispatch]);
 
-  const handleCategory = (categoryId: number) => {
-    dispatch(getFilteredProducts(categoryId));
+  const handleCategory = async (e: SelectChangeEvent) => {
+    const value = e.target.value as string;
+    setSelectedCategory(value);
+    await dispatch(getFilteredProducts(Number(value)));
+    dispatch(sortByPrice(selectedPrice));
   };
-  const handlePrice = (sortOrder: string) => {
-    dispatch(sortByPrice(sortOrder));
+  const handlePrice = (e: SelectChangeEvent) => {
+    const value = e.target.value as string;
+    setSelectedPrice(value);
+    dispatch(sortByPrice(value));
   };
   const handleUpdate = (updatedProduct: UpdatedProduct, id: number) => {
     dispatch(updateProduct({ updatedProduct, id }));
@@ -49,17 +58,35 @@ const Products = () => {
   return (
     <>
       <div className='filter-container'>
-        <div className='filter-container__categories'>
-          {categories.map((category: Category) => (
-            <button onClick={() => handleCategory(category.id)}>
-              Sort by {category.name}
-            </button>
-          ))}
-        </div>
-        <div className='filter-container__prices'>
-          <button onClick={() => handlePrice('asc')}>Ascending Price</button>
-          <button onClick={() => handlePrice('desc')}>Descending Price</button>
-        </div>
+        <Box sx={{ width: '9em', bgcolor: '#f0f4f9' }}>
+          <FormControl fullWidth>
+            <InputLabel id='category'>Sort by Category</InputLabel>
+            <Select
+              labelId='category'
+              value={selectedCategory}
+              onChange={handleCategory}
+            >
+              {categories.map((category: Category) => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <Box sx={{ width: '9em', bgcolor: '#f0f4f9' }}>
+          <FormControl fullWidth>
+            <InputLabel id='price'>Sort by Price</InputLabel>
+            <Select
+              labelId='price'
+              value={selectedPrice}
+              onChange={handlePrice}
+            >
+              <MenuItem value='asc'>Ascending</MenuItem>
+              <MenuItem value='desc'>Descending</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
       </div>
       <div className='product-grid'>
         {products.map((product: Product) => (

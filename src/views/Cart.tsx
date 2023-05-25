@@ -27,7 +27,8 @@ const Cart = () => {
 
   useEffect(() => {
     calcTotalPrice();
-  }, [cartItems]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems]); 
 
   return (
     <>

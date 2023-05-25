@@ -11,6 +11,7 @@ const Profile = () => {
     if (!loggedIn) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
 
   return (

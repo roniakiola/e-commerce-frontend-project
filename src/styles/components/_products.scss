@@ -1,9 +1,15 @@
+.filter-container {
+  margin: 1em 0 0;
+  display: flex;
+  justify-content: center;
+}
+
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-auto-rows: 1fr;
   gap: 2em;
-  padding: 2em 10em;
+  padding: 1em 10em;
 }
 
 @media only screen and (max-width: 800px) {

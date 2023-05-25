@@ -6,13 +6,7 @@ import { ProductCardProps } from '../interfaces/ProductCardProps';
 import useAppSelector from '../hooks/useAppSelector';
 
 const ProductCard = (props: ProductCardProps) => {
-  const {
-    product,
-    handleDelete,
-    handleUpdate,
-    handleAddToCart,
-    handleRemoveFromCart,
-  } = props;
+  const { product, handleDelete, handleUpdate, handleAddToCart } = props;
   const { id, title, price, description, category, images } = product;
   const { user } = useAppSelector((state) => state.userReducer);
 
