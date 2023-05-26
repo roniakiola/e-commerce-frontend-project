@@ -7,13 +7,18 @@ import { useForm } from 'react-hook-form';
 import { ProductCardProps } from '../interfaces/ProductCardProps';
 import useAppSelector from '../hooks/useAppSelector';
 import { UpdatedProduct } from '../interfaces/UpdatedProduct';
+import useFileUpload from '../hooks/useFileUpload';
+import useAppDispatch from '../hooks/useAppDispatch';
+import { removeImage } from '../redux/reducers/productsReducer';
 
 const ProductCard = (props: ProductCardProps) => {
+  const dispatch = useAppDispatch();
   const { product, handleDelete, handleUpdate, handleAddToCart } = props;
-  const { id, title, price, description, category, images } = product;
+  const { id, title, price, description, images } = product;
   const { user } = useAppSelector((state) => state.userReducer);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { register, handleSubmit } = useForm();
+  const { fileLocation, handleFileChange } = useFileUpload();
 
   const openForm = () => {
     setIsFormOpen(true);
@@ -24,8 +29,14 @@ const ProductCard = (props: ProductCardProps) => {
   };
 
   const onSubmit = (data: UpdatedProduct) => {
+    data.images = images;
+    data.images = [...data.images, fileLocation];
     handleUpdate(data, id);
     closeForm();
+  };
+
+  const handleImageRemove = (imageIndex: number) => {
+    dispatch(removeImage({ productId: id, imageIndex }));
   };
 
   return (
@@ -46,24 +57,41 @@ const ProductCard = (props: ProductCardProps) => {
               className='product-card__form'
               onSubmit={handleSubmit(onSubmit)}
             >
+              {' '}
+              <label>Title</label>
               <input
                 type='text'
                 placeholder='Title'
                 defaultValue={title}
                 {...register('title')}
               />
+              <label>Price</label>
               <input
                 type='number'
                 placeholder='Price'
                 defaultValue={price}
                 {...register('price')}
               />
+              <label>Description</label>
               <textarea
                 placeholder='Description'
                 defaultValue={description}
                 {...register('description')}
               />
-
+              <input
+                type='file'
+                multiple
+                {...register('images')}
+                onChange={(e) => handleFileChange(e.target.files![0])}
+              />
+              <ul className='image-list'>
+                {images.map((image, index) => (
+                  <div className='image-list__item'>
+                    <p>{image}</p>
+                    <DeleteForever onClick={() => handleImageRemove(index)} />
+                  </div>
+                ))}
+              </ul>
               <button type='submit'>Save</button>
               <button type='button' onClick={closeForm}>
                 Cancel

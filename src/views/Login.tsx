@@ -46,7 +46,10 @@ const Login = () => {
   };
 
   const onRegister = (data: RegisterData) => {
+    console.log(data);
+    console.log(data.avatar);
     data.avatar = fileLocation;
+    console.log(data.avatar);
     dispatch(registerUser(data));
     reset();
   };

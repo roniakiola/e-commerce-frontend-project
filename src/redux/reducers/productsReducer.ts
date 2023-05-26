@@ -126,6 +126,15 @@ const productsSlice = createSlice({
         }
       });
     },
+    removeImage: (state, action) => {
+      const { productId, imageIndex } = action.payload;
+      const product = state.products.find(
+        (product) => product.id === productId
+      );
+      if (product) {
+        product.images.splice(imageIndex, 1);
+      }
+    },
   },
   extraReducers: (build) => {
     build.addCase(getAllProducts.fulfilled, (state, action) => {
@@ -184,6 +193,7 @@ const productsSlice = createSlice({
   },
 });
 
-export const { cleanUpProductReducer, sortByPrice } = productsSlice.actions;
+export const { cleanUpProductReducer, sortByPrice, removeImage } =
+  productsSlice.actions;
 const productsReducer = productsSlice.reducer;
 export default productsReducer;

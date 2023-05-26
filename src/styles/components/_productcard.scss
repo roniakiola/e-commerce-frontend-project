@@ -7,6 +7,33 @@
   background-color: colors.$secondary-light;
   transition: 0.4s ease-in-out;
 
+  &__form {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1em;
+    height: 100%;
+    input,
+    textarea {
+      height: 5em;
+    }
+    button {
+      height: 3em;
+      background-color: colors.$primary-accent;
+      color: colors.$secondary-light;
+      &:hover {
+        cursor: pointer;
+        background-color: colors.$primary-dark;
+        color: colors.$primary-accent;
+      }
+      &:last-child {
+        background-color: colors.$warning-red;
+        color: colors.$secondary-light;
+      }
+    }
+  }
+
   &:hover {
     position: relative;
     overflow: hidden;
