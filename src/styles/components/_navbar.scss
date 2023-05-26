@@ -35,11 +35,12 @@
     }
   }
 
-  &__hamburger {
+  &__icon {
     height: 100%;
     padding: 0.65em 0.75em;
     vertical-align: middle;
     color: colors.$secondary-light;
+    transition: 0.4s ease-in-out;
     &:hover {
       background-color: colors.$primary-dark;
       color: colors.$primary-accent;
@@ -52,6 +53,7 @@
     color: colors.$secondary-light;
     padding: 1em;
     font-size: 1em;
+    transition: 0.4s ease-in-out;
     &:hover {
       background-color: colors.$warning-red;
       cursor: pointer;

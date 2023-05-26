@@ -8,6 +8,7 @@ import { loginUser, registerUser } from '../redux/reducers/userReducer';
 import { LoginData } from '../interfaces/LoginData';
 import { RegisterData } from '../interfaces/RegisterData';
 import useAppSelector from '../hooks/useAppSelector';
+import useFileUpload from '../hooks/useFileUpload';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +16,8 @@ const Login = () => {
   const { register, handleSubmit, reset } = useForm<LoginData & RegisterData>();
   const { loggedIn } = useAppSelector((state) => state.userReducer);
   const [showRegister, setShowRegister] = useState<boolean>(false);
-  const [fileLocation, setFileLocation] = useState<string>('');
+  // const [fileLocation, setFileLocation] = useState<string>('');
+  const { fileLocation, handleFileChange } = useFileUpload();
 
   useEffect(() => {
     if (loggedIn) {
@@ -24,21 +26,21 @@ const Login = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
 
-  const handleFileChange = async (file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    try {
-      const response = await axios.post(
-        'https://api.escuelajs.co/api/v1/files/upload',
-        formData,
-        { headers: { 'Content-Type': 'multipart/form-data' } }
-      );
-      return setFileLocation(response.data.location);
-    } catch (e) {
-      const error = e as AxiosError;
-      return error;
-    }
-  };
+  // const handleFileChange = async (file: File) => {
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+  //   try {
+  //     const response = await axios.post(
+  //       'https://api.escuelajs.co/api/v1/files/upload',
+  //       formData,
+  //       { headers: { 'Content-Type': 'multipart/form-data' } }
+  //     );
+  //     return setFileLocation(response.data.location);
+  //   } catch (e) {
+  //     const error = e as AxiosError;
+  //     return error;
+  //   }
+  // };
 
   const onLogin = (data: LoginData) => {
     dispatch(loginUser(data));
@@ -46,10 +48,7 @@ const Login = () => {
   };
 
   const onRegister = (data: RegisterData) => {
-    console.log(data);
-    console.log(data.avatar);
     data.avatar = fileLocation;
-    console.log(data.avatar);
     dispatch(registerUser(data));
     reset();
   };

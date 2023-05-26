@@ -78,6 +78,7 @@ const ProductCard = (props: ProductCardProps) => {
                 defaultValue={description}
                 {...register('description')}
               />
+              <label>Upload file</label>
               <input
                 type='file'
                 multiple
@@ -86,9 +87,12 @@ const ProductCard = (props: ProductCardProps) => {
               />
               <ul className='image-list'>
                 {images.map((image, index) => (
-                  <div className='image-list__item'>
+                  <div key={index} className='image-list__item'>
                     <p>{image}</p>
-                    <DeleteForever onClick={() => handleImageRemove(index)} />
+                    <DeleteForever
+                      className='delete-icon'
+                      onClick={() => handleImageRemove(index)}
+                    />
                   </div>
                 ))}
               </ul>

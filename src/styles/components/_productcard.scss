@@ -8,7 +8,6 @@
   transition: 0.4s ease-in-out;
 
   &__form {
-    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -32,6 +31,15 @@
         color: colors.$secondary-light;
       }
     }
+    .image-list {
+      display: flex;
+      flex-direction: column;
+      &__item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
   }
 
   &:hover {
@@ -40,7 +48,7 @@
     transform: scale(1.02);
 
     &::before {
-      content: 'View More >';
+      content: 'View More >'; //this shows even in form, how to fix?
       position: absolute;
       bottom: 30%;
       left: 37%;
@@ -69,20 +77,6 @@
     padding: 1em;
     display: flex;
     justify-content: space-between;
-
-    .delete-icon,
-    .edit-icon {
-      color: colors.$warning-red;
-      border: 3px;
-      &:hover {
-        cursor: pointer;
-        background-color: colors.$primary-dark;
-      }
-    }
-
-    .edit-icon {
-      color: colors.$primary-accent;
-    }
   }
 
   &__image-container {
@@ -140,4 +134,18 @@
     background-color: colors.$primary-dark;
     color: colors.$primary-accent;
   }
+}
+
+.delete-icon,
+.edit-icon {
+  color: colors.$warning-red;
+  border: 3px;
+  &:hover {
+    cursor: pointer;
+    background-color: colors.$primary-dark;
+  }
+}
+
+.edit-icon {
+  color: colors.$primary-accent;
 }
