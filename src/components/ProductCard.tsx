@@ -24,12 +24,7 @@ const ProductCard = (props: ProductCardProps) => {
   };
 
   const onSubmit = (data: UpdatedProduct) => {
-    const updatedProduct: UpdatedProduct = {
-      title: data?.title,
-      description: data?.description,
-      price: data?.price,
-    };
-    handleUpdate(updatedProduct, id);
+    handleUpdate(data, id);
     closeForm();
   };
 
@@ -51,10 +46,21 @@ const ProductCard = (props: ProductCardProps) => {
               className='product-card__form'
               onSubmit={handleSubmit(onSubmit)}
             >
-              <input type='text' placeholder='Title' {...register('title')} />
-              <input type='number' placeholder='Price' {...register('price')} />
+              <input
+                type='text'
+                placeholder='Title'
+                defaultValue={title}
+                {...register('title')}
+              />
+              <input
+                type='number'
+                placeholder='Price'
+                defaultValue={price}
+                {...register('price')}
+              />
               <textarea
                 placeholder='Description'
+                defaultValue={description}
                 {...register('description')}
               />
 
