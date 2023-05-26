@@ -18,7 +18,7 @@ const Profile = () => {
     <>
       <h1>Profile</h1>
       <div>
-        <img src={user?.avatar}></img>
+        <img src={user?.avatar} alt='user'></img>
         <h1>{user?.name}</h1>
         <p>{user?.email}</p>
         <p>{user?.role}</p>

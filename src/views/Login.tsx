@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import useAppDispatch from '../hooks/useAppDispatch';

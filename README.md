@@ -1,51 +1,138 @@
-# Front-end Project
+# Introduction
 
-![React](https://img.shields.io/badge/React-v.18-blue)
-![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
-![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
-![SASS](https://img.shields.io/badge/SASS-v.1-hotpink)
+Purpose of this project was to build an E-commerce front-end using mockup API https://fakeapi.platzi.com/en/rest/introduction
 
-This project requires implementation of TypeScript and SASS.
+During this project I learned a lot from state management, project structuring and a little bit of unit testing. There is still improvements to be made, especially more unit tests should be implemented, styling is not completely finished and the code could be optimized and cleaned up. However, as a learning process this was an awesome experience.
 
-## Requirement
+Test it out: https://resonant-gaufre-b2b6fe.netlify.app/
 
-1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
-2. Create at lease 4 pages (can be more if you want): Home page, product page,
-profile page (only available if user logins), and cart page (cart could be a page or a modal)
-3. Create Redux store for following features:
-    - product reducer: get all products, find a single products, sort products by
-    categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp. For example, you can check if user is your admin account before let them delete product)
-    - user reducer: Register and Login
-    - cart reducer: add product to cart, remove products, update products's quantity in cart
-4. When adding routers to your application, programatically set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
-5. Deploy the application and rewrite README file.
+## Table of contents
 
-## Bonus
+- [Technologies](#technologies)
+- [Functionalities](#Functionalities)
+- [Issues & Missing functionalities](#Issues-&-Missing-functionalities)
+- [Project structure](#project-structure)
+- [Getting started](#getting-started)
 
-1. Use context API to switch theme
-2. Implement unit testing for the reducers
+## Technologies
 
-## Instruction to start the project
+- TypeScript
+- Material UI
+- React
+- React Router DOM
+- React Hook Form
+- Redux and Redux Toolkit
+- Sass
 
-In the project directory, you can run:
+## Functionalities
 
-### `npm install`
+- User is able to browse, create and add products to their cart
+- Cart has dynamic badge to display item amount in cart
+- Sorting products by price and category
+- Responsive UI
+- Admin user has privileges to update and delete products
+    - Really nice way for Admin to update and delete products straight from the products page
+- Updating product includes file removals and file adding
+- User can register and login to the site
+- Profile page only visible if user has logged in
 
-Install all the dependencies
+## Issues & Missing functionalities
 
-### `npm start`
+- Unfinished styling in some views/components
+    - Create new product Modal 1st on ToDo
+- Home page is empty, should add pictures and lorem ipsum
+- Not able to upload multiple files at once
+- Code optimization and clean up
+- Not able to update user details
+- Checkout feature not implemented
+- No Error logging for user actions on UI
+- Form validation missing
+- Loading information in UI not implemented
+- More unit test should be used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Project structure
+```bash
+│     .gitignore
+│     package.json
+│     readme.md
+│     tsconfig.json
+│
+├───public
+│       index.html
+│       manifest.json
+│       robots.txt
+│
+└───src
+    │   App.tsx
+    │   index.tsx
+    │   react-app-env.d.ts
+    │
+    ├───components
+    │       Navbar.tsx
+    │       ProductCard.tsx
+    │
+    ├───hooks
+    │       useAppDispatch.ts
+    │       useAppSelector.ts
+    │       useFileUpload.ts
+    │
+    ├───interfaces
+    │       CartItem.ts
+    │       Category.ts
+    │       LoginData.ts
+    │       NewProduct.ts
+    │       Product.ts
+    │       ProductCardProps.ts
+    │       RegisterData.ts
+    │       UpdatedProduct.ts
+    │       User.ts
+    │
+    ├───redux
+    │   │   store.ts
+    │   │
+    │   └───reducers
+    │           cartReducer.ts
+    │           categoryReducer.ts
+    │           productsReducer.ts
+    │           userReducer.ts
+    │
+    ├───styles
+    │   │   style.scss
+    │   │
+    │   ├───components
+    │   │       _cart.scss
+    │   │       _navbar.scss
+    │   │       _productcard.scss
+    │   │       _products.scss
+    │   │       _singleproduct.scss
+    │   │
+    │   └───variables
+    │           _colors.scss
+    │           _fonts.scss
+    │
+    ├───tests
+    │   │   mockStore.ts
+    │   │
+    │   ├───data
+    │   │       categoryData.ts
+    │   │       productData.ts
+    │   │
+    │   ├───reducers
+    │   │       productsReducer.test.ts
+    │   │
+    │   └───server
+    │           productServer.ts
+    │
+    └───views
+            Cart.tsx
+            Home.tsx
+            Login.tsx
+            Products.tsx
+            Profile.tsx
+            SingleProduct.tsx
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Getting started
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Use <code>git clone</code> and <code>npm i</code> to install the project.
+2. Use<code>npm run start</code> to run in dev mode. Refer to <code>package.json</code> for more scripts to run. 
