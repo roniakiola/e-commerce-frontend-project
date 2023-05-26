@@ -32,6 +32,7 @@ Test it out: https://resonant-gaufre-b2b6fe.netlify.app/
 - Responsive UI
 - Admin user has privileges to update and delete products
     - Really nice way for Admin to update and delete products straight from the products page
+    ![Screenshot](admin_view.png)
 - Updating product includes file removals and file adding
 - User can register and login to the site
 - Profile page only visible if user has logged in
